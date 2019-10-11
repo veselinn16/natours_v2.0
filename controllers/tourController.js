@@ -14,6 +14,7 @@ exports.aliasTopTours = (req, res, next) => {
 };
 
 exports.getAllTours = catchAsync(async (req, res, next) => {
+  // Execute query
   const features = new APIFeatures(Tour.find(), req.query)
     .filter()
     .sort()
@@ -22,6 +23,8 @@ exports.getAllTours = catchAsync(async (req, res, next) => {
 
   const tours = await features.query;
 
+  // We're not sending a 404 error because a result of 0 tours is still a correct result
+  // Sends response
   res.status(200).json({
     status: 'success',
     results: tours.length,

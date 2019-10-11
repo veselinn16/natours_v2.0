@@ -6,21 +6,24 @@ const handleCastErrorDB = err => {
 };
 
 const handleDuplicateErrorDB = err => {
+  // find the text that is between quotes
   const value = err.errmsg.match(/(["'])(\\?.)*?\1/)[0];
-  console.log(value);
 
   const message = `Duplicate field value: ${value}. Please use another value!`;
   return new AppError(message, 400);
 };
 
 const handleValidationErrorDB = err => {
+  // get the messages of all errors and put them in an array
   const errors = Object.values(err.errors).map(el => el.message);
 
+  // cosntruct a string of the error messages
   const message = `Invalid input data. ${errors.join('. ')}`;
   return new AppError(message, 400);
 };
 
 const sendErrorDev = (err, res) => {
+  // send as much data as possible
   res.status(err.statusCode).json({
     status: err.status,
     error: err,
@@ -31,11 +34,13 @@ const sendErrorDev = (err, res) => {
 
 const sendErrorProd = (err, res) => {
   if (err.isOperational) {
+    // operational error - send to client
     res.status(err.statusCode).json({
       status: err.status,
       message: err.message
     });
   } else {
+    // programming or other unknown error - don't send to client
     // log error
     console.error('ERROR 💥', err);
 
