@@ -1,6 +1,7 @@
 const express = require('express');
 
 const userController = require('./../controllers/userController');
+const authController = require('./../controllers/authController');
 
 const {
   getAllusers,
@@ -10,7 +11,11 @@ const {
   deleteUser
 } = userController;
 
+const { signUp } = authController;
+
 const router = express.Router();
+
+router.post('/signup', signUp);
 
 router
   .route('/')
