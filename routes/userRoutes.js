@@ -4,22 +4,23 @@ const userController = require('./../controllers/userController');
 const authController = require('./../controllers/authController');
 
 const {
-  getAllusers,
+  getAllUsers,
   createUser,
   getUser,
   updateUser,
   deleteUser
 } = userController;
 
-const { signUp } = authController;
+const { signUp, logIn } = authController;
 
 const router = express.Router();
 
 router.post('/signup', signUp);
+router.post('/login', logIn);
 
 router
   .route('/')
-  .get(getAllusers)
+  .get(getAllUsers)
   .post(createUser);
 
 router

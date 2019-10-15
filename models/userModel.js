@@ -19,7 +19,9 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: [true, 'Please provide a password!'],
-    minlength: 8
+    minlength: 8,
+    // doesn't return the password to the client
+    select: false
   },
   passwordConfirm: {
     // only needed for validating user input, not persisted in DB, check pre-save middleware
@@ -33,7 +35,8 @@ const userSchema = new mongoose.Schema({
       },
       message: 'Passwords are not the same!'
     }
-  }
+  },
+  passwordChangedAt: Date
 });
 
 // pre-save mongoose middleware for password encryption
@@ -49,6 +52,30 @@ userSchema.pre('save', async function(next) {
 
   next();
 });
+
+// instance method comparing the password for login provided by user is valid to that of the db
+userSchema.methods.correctPassword = async function(
+  candidatePassword,
+  userPassword
+) {
+  // compares sent password by user to user's password stored in db
+  return await bcrypt.compare(candidatePassword, userPassword);
+};
+
+// instance method checking whether user's trying to access resource after he's modified his password
+userSchema.methods.changedPasswordAfter = function(JWTTimestamp) {
+  // this points to the current document
+  if (this.passwordChangedAt) {
+    const changedTimeStamp = parseInt(
+      this.passwordChangedAt.getTime() / 1000,
+      10
+    );
+    return JWTTimestamp < changedTimeStamp; // 100 < 200 -> true(password is changed after token issue)
+  }
+
+  // password has not been changed
+  return false;
+};
 
 const User = mongoose.model('User', userSchema);
 

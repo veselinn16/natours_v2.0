@@ -1,5 +1,6 @@
 const express = require('express');
 const tourController = require('./../controllers/tourController');
+const authController = require('../controllers/authController');
 
 const {
   getAllTours,
@@ -20,7 +21,7 @@ router.route('/top-5-cheap').get(aliasTopTours, getAllTours);
 
 router
   .route('/')
-  .get(getAllTours)
+  .get(authController.protect, getAllTours) // first run the protect function and only if user's authenticated, run route handler
   .post(createTour);
 // .post(checkBody, createTour);
 

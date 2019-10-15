@@ -5,6 +5,12 @@ const handleCastErrorDB = err => {
   return new AppError(message, 400);
 };
 
+const handleJWTError = () =>
+  new AppError('Invalid token. Please log in again!', 401);
+
+const handleJWTExpiredError = () =>
+  new AppError('Expired token. Please log in again!', 401);
+
 const handleDuplicateErrorDB = err => {
   // find the text that is between quotes
   const value = err.errmsg.match(/(["'])(\\?.)*?\1/)[0];
@@ -65,6 +71,8 @@ module.exports = (err, req, res, next) => {
     if (error.code === 11000) error = handleDuplicateErrorDB(error);
     if (error.name === 'ValidationError')
       error = handleValidationErrorDB(error);
+    if (error.name === 'JsonWebTokenError') error = handleJWTError();
+    if (error.name === 'TokenExpiredError') error = handleJWTExpiredError();
 
     sendErrorProd(error, res);
   }
