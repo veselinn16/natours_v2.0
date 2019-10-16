@@ -12,13 +12,13 @@ const signToken = id => {
 
 exports.signUp = catchAsync(async (req, res, next) => {
   // creates new user that is not an admin. To create admins, go to Compass and edit role
-  console.log(req);
   const newUser = await User.create({
     name: req.body.name,
     email: req.body.email,
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
-    passwordChangedAt: req.body.passwordChangedAt
+    passwordChangedAt: req.body.passwordChangedAt,
+    role: req.body.role
   });
 
   // sign JWT
@@ -101,6 +101,19 @@ exports.protect = catchAsync(async (req, res, next) => {
   }
 
   // grant access to protected route if all steps are successful
-  req.user = currentUser;
+  req.user = currentUser; // puts user onto the request object in order to make it available to the next middleware
   next();
 });
+
+exports.restrictTo = (...roles) => {
+  // roles is an array of roles strings
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      // user is put into the request object in the upper middleware which runs before this, so here we'll have access to the user on the request object
+      return next(
+        new AppError('You do not have permission to perform this action!', 403)
+      );
+    }
+    next();
+  };
+};
