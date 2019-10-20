@@ -11,12 +11,14 @@ const {
   deleteUser
 } = userController;
 
-const { signUp, logIn } = authController;
+const { signUp, logIn, resetPassword, forgotPassword } = authController;
 
 const router = express.Router();
 
 router.post('/signup', signUp);
 router.post('/login', logIn);
+router.post('/forgotPassword', forgotPassword);
+router.patch('/resetPassword/:token', resetPassword);
 
 router
   .route('/')
