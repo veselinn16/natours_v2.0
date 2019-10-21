@@ -18,8 +18,8 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ['user', 'guide', 'lead-guide', 'admin']
-    // default: 'user'
+    enum: ['user', 'guide', 'lead-guide', 'admin'],
+    default: 'user'
   },
   photo: String,
   password: {
@@ -44,7 +44,12 @@ const userSchema = new mongoose.Schema({
   },
   passwordChangedAt: Date,
   passwordResetToken: String,
-  passwordResetExpires: Date
+  passwordResetExpires: Date,
+  active: {
+    type: Boolean,
+    default: true,
+    select: false
+  }
 });
 
 // pre-save mongoose middleware for password encryption
@@ -57,6 +62,14 @@ userSchema.pre('save', async function(next) {
 
   // do not persist this field on the DB
   this.passwordConfirm = undefined;
+
+  next();
+});
+
+// query middleware for filtering out inactive users
+userSchema.pre(/^find/, function(next) {
+  // this points to the current query
+  this.find({ active: { $ne: false } }); // not equal to false
 
   next();
 });
