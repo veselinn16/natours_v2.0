@@ -31,6 +31,21 @@ const reviewSchema = new mongoose.Schema(
   }
 );
 
+// QUERY MIDDLEWARE
+// works for find(), findOne(), etc.
+reviewSchema.pre(/^find/, function(next) {
+  // populate the user and tour fields
+  this.populate({
+    path: 'user',
+    select: 'name photo' // only get the name and photo of the user
+  }).populate({
+    path: 'tour',
+    select: 'name' // only get the name of the tour
+  });
+
+  next();
+});
+
 const Review = mongoose.model('Review', reviewSchema);
 
 module.exports = Review;
