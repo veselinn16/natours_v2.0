@@ -35,6 +35,7 @@ exports.getAllTours = catchAsync(async (req, res, next) => {
 });
 
 exports.getTour = catchAsync(async (req, res, next) => {
+  // search for tour and populate the guides references with actual users
   const tour = await Tour.findById(req.params.id);
 
   if (!tour) {

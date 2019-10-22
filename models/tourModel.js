@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
-// // const validator = require('validator');
+// const User = require('./userModel'); // for embedding guides
 
 const tourSchema = new mongoose.Schema(
   {
@@ -77,7 +77,37 @@ const tourSchema = new mongoose.Schema(
     secretTour: {
       type: Boolean,
       default: false
-    }
+    },
+    startLocation: {
+      // GeoJSON
+      type: {
+        type: String,
+        default: 'Point',
+        enum: ['Point'] // only point is allowed
+      },
+      coordinates: [Number], // expects an array of numbers : 1) Longitude 2) Latitude
+      address: String,
+      description: String
+    },
+    locations: [
+      {
+        type: {
+          type: String,
+          default: 'Point',
+          enum: ['Point'],
+          coordinates: [Number],
+          address: String,
+          description: String,
+          day: Number // day in which people will go to location
+        }
+      }
+    ],
+    guides: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User'
+      }
+    ]
   },
   {
     toJSON: { virtuals: true },
@@ -94,6 +124,16 @@ tourSchema.pre('save', function(next) {
   this.slug = slugify(this.name, { lower: true });
   next();
 });
+
+// for embedding
+// tourSchema.pre('save', async function(next) {
+//   // find all users that have the provided Id's
+//   // returns a Promise for every user, so we have an array of Promises
+//   const guidesPromises = this.guides.map(async id => await User.findById(id));
+//   this.guides = await Promise.all(guidesPromises); // user documents
+
+//   next();
+// });
 
 // tourSchema.pre('save', function(next) {
 //   console.log('Will save document...');
@@ -114,6 +154,16 @@ tourSchema.pre(/^find/, function(next) {
   next();
 });
 
+tourSchema.pre(/^find/, function(next) {
+  this.populate({
+    path: 'guides',
+    select: '-__v -passwordChangedAt'
+  });
+
+  next();
+});
+
+// POST MIDDLEWARE
 tourSchema.post(/^find/, function(docs, next) {
   console.log(`Query took ${Date.now() - this.start} milliseconds!`);
   next();
