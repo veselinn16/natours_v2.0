@@ -12,6 +12,8 @@ process.on('uncaughtException', err => {
 dotenv.config({ path: './config.env' });
 const app = require('./app');
 console.log(process.env.DATABASE);
+
+// connection uri
 const DB = process.env.DATABASE.replace(
   '<PASSWORD>',
   process.env.DATABASE_PASSWORD
@@ -34,8 +36,9 @@ const server = app.listen(port, () => {
 
 // safety net for unhandled promises
 process.on('unhandledRejection', err => {
-  console.log('UNHANDLED REJECTION! 💥 Shutting down...');
-  console.log(err.name, err.message);
+  // console.log('UNHANDLED REJECTION! 💥 Shutting down...');
+  // console.log(err.name, err.message);
+  console.log(err);
 
   // gracefully shut down the server and then the app
   server.close(() => {

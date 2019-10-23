@@ -6,7 +6,7 @@ const { getAllReviews, createReview } = reviewController;
 const { protect, restrictTo } = authController;
 
 // we'll mount this on /api/reviews
-const router = express.Router();
+const router = express.Router({ mergeParams: true }); // mergeParams is used to get the tourId param coming from the tour router
 
 router
   .route('/')
