@@ -20,22 +20,31 @@ const {
   resetPassword,
   forgotPassword,
   protect,
+  restrictTo,
   updatePassword
 } = authController;
 
 const router = express.Router();
 
+// routes can be accessed by anyone
 router.post('/signup', signUp);
 router.post('/login', logIn);
 
 router.post('/forgotPassword', forgotPassword);
 router.patch('/resetPassword/:token', resetPassword);
 
-router.patch('/updateMyPassword', protect, updatePassword);
-router.patch('/updateMe', protect, updateMe);
-router.delete('/deleteMe', protect, deleteMe);
+// Protect all the routes that are matched after this point - user must be authenticated
+router.use(protect);
 
-router.route('/me').get(protect, getMe, getUser);
+// router.patch('/updateMyPassword', protect, updatePassword); // old version before adding protect middleware
+router.patch('/updateMyPassword', updatePassword);
+router.patch('/updateMe', updateMe);
+router.delete('/deleteMe', deleteMe);
+
+router.route('/me').get(getMe, getUser);
+
+// only admins can access following routes
+router.use(restrictTo('admin'));
 
 router
   .route('/')

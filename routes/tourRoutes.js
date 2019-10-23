@@ -7,9 +7,11 @@ const {
   getAllTours,
   createTour,
   getTour,
+  getTourStats,
   updateTour,
   deleteTour,
-  aliasTopTours
+  aliasTopTours,
+  getMonthlyPlan
   // checkID,
   // checkBody
 } = tourController;
@@ -28,16 +30,22 @@ router.use('/:tourId/reviews', reviewRouter);
 
 router.route('/top-5-cheap').get(aliasTopTours, getAllTours);
 
+router.route('/tour-stats').get(getTourStats);
+
+router
+  .route('/monthly-plan/:year')
+  .get(protect, restrictTo('admin', 'lead-guide', 'guide'), getMonthlyPlan);
+
 router
   .route('/')
-  .get(authController.protect, getAllTours) // first run the protect function and only if user's authenticated, run route handler
-  .post(createTour);
+  .get(getAllTours)
+  .post(protect, restrictTo('admin', 'lead-guide'), createTour);
 // .post(checkBody, createTour);
 
 router
   .route('/:id')
   .get(getTour)
-  .patch(updateTour)
+  .patch(protect, restrictTo('admin', 'lead-guide'), updateTour)
   .delete(protect, restrictTo('admin', 'lead-guide'), deleteTour); // only certain user roles can delete a tour
 
 module.exports = router;
