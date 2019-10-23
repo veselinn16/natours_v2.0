@@ -21,6 +21,14 @@ exports.createUser = (req, res) => {
   });
 };
 
+// this middleware runs before calling the getOne factory function
+exports.getMe = (req, res, next) => {
+  // puts the user id on the request object. user comes from protect
+  req.params.id = req.user.id;
+
+  next();
+};
+
 exports.getAllUsers = factory.getAll(User);
 
 exports.getUser = factory.getOne(User);

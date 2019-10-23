@@ -9,6 +9,7 @@ const {
   getUser,
   updateUser,
   deleteUser,
+  getMe,
   updateMe,
   deleteMe
 } = userController;
@@ -33,6 +34,8 @@ router.patch('/resetPassword/:token', resetPassword);
 router.patch('/updateMyPassword', protect, updatePassword);
 router.patch('/updateMe', protect, updateMe);
 router.delete('/deleteMe', protect, deleteMe);
+
+router.route('/me').get(protect, getMe, getUser);
 
 router
   .route('/')
