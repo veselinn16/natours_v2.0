@@ -66,20 +66,20 @@ userSchema.pre('save', async function(next) {
   next();
 });
 
-// query middleware for filtering out inactive users
-userSchema.pre(/^find/, function(next) {
-  // this points to the current query
-  this.find({ active: { $ne: false } }); // not equal to false
-
-  next();
-});
-
 userSchema.pre('save', function(next) {
   // if we didn't modify the password property OR if this is a new document, call next middleware
   if (!this.isModified('password') || this.isNew) return next();
 
   // enables us to log the user in, because saving to the db is a bit slower than the issuing of the new passwordChangedAt timestamp
   this.passwordChangedAt = Date.now() - 1000;
+  next();
+});
+
+// query middleware for filtering out inactive users
+userSchema.pre(/^find/, function(next) {
+  // this points to the current query
+  this.find({ active: { $ne: false } }); // not equal to false
+
   next();
 });
 

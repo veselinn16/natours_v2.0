@@ -85,6 +85,7 @@ exports.getAll = Model =>
       .limitFields()
       .paginate();
 
+    // const documents = await features.query.explain();
     const documents = await features.query;
 
     // We're not sending a 404 error because a result of 0 documents is still a correct result
