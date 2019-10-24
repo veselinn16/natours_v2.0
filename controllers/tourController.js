@@ -57,6 +57,7 @@ exports.deleteTour = factory.deleteOne(Tour);
 
 exports.getTourStats = catchAsync(async (req, res, next) => {
   const stats = await Tour.aggregate([
+    // this is an array of stages the documents should pass through
     {
       $match: { ratingsAverage: { $gte: 4.5 } }
     },
