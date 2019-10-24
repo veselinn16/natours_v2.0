@@ -32,6 +32,9 @@ const reviewSchema = new mongoose.Schema(
   }
 );
 
+// compound index making sure that each combination of tour and user is unique
+reviewSchema.index({ tour: 1, user: 1 }, { unique: true });
+
 // QUERY MIDDLEWARE
 // works for find(), findOne(), etc.
 reviewSchema.pre(/^find/, function(next) {
