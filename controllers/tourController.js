@@ -1,7 +1,7 @@
 const Tour = require('./../models/tourModel');
 // const APIFeatures = require('./../utils/apiFeatures');
 const catchAsync = require('./../utils/catchAsync');
-// const AppError = require('./../utils/appError');
+const AppError = require('./../utils/appError');
 
 // factory functions
 const factory = require('./handlerFactory');
@@ -127,6 +127,94 @@ exports.getMonthlyPlan = catchAsync(async (req, res, next) => {
     status: 'success',
     data: {
       plan
+    }
+  });
+});
+
+// for Geospatial query
+// /tours-within/233/center/34.2424,-118.42412/unit/mi - example URL
+exports.getToursWithin = catchAsync(async (req, res, next) => {
+  // destructure the parameters from url
+  const { distance, latlng, unit } = req.params;
+
+  // destructure lat and lng
+  const [lat, lng] = latlng.split(',');
+
+  // radius of earth in mies = 3963.2
+  // radius of earth in km = 6378.1
+  // distance has to be in radiant measure unit
+  const radius = unit === 'mi' ? distance / 3963.2 : distance / 6378.1;
+
+  if (!lat || !lng) {
+    next(
+      new AppError(
+        'Please provide latitude and longitude in the format lat,lng.',
+        400
+      )
+    );
+  }
+
+  // we define a 2D sphere using lng and lat(GeoJSON), through which we query with the $centerSphere query operator
+  const tours = await Tour.find({
+    startLocation: { $geoWithin: { $centerSphere: [[lng, lat], radius] } }
+  });
+
+  res.status(200).json({
+    status: 'success',
+    results: tours.length,
+    data: {
+      data: tours
+    }
+  });
+});
+
+exports.getDistances = catchAsync(async (req, res, next) => {
+  // destructure the parameters from url
+  const { latlng, unit } = req.params;
+
+  // destructure lat and lng
+  const [lat, lng] = latlng.split(',');
+
+  if (!lat || !lng) {
+    next(
+      new AppError(
+        'Please provide latitude and longitude in the format lat,lng.',
+        400
+      )
+    );
+  }
+
+  // miles or km
+  const multiplier = unit === 'mi' ? 0.000621371 : 0.001;
+
+  // aggregagtion pipeline for geospatial data
+  const distances = await Tour.aggregate([
+    {
+      $geoNear: {
+        near: {
+          // Geo JSON
+          type: 'Point',
+          coordinates: [+lng, +lat]
+        },
+        // this is the field where all calculated data will be put on
+        distanceField: 'distance',
+        // converts the meters that are returned to km
+        distanceMultiplier: multiplier
+      }
+    },
+    {
+      // this stage selects only the wanted fields of the returned tours
+      $project: {
+        distance: 1,
+        name: 1
+      }
+    }
+  ]);
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      data: distances
     }
   });
 });
