@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
@@ -11,8 +12,17 @@ const globalErrorHandler = require('./controllers/errorController');
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
+const viewRouter = require('./routes/viewRoutes');
 
 const app = express();
+
+// explain that we're going to use Pug for the templating language
+app.set('view engine', 'pug');
+// the path to the views
+app.set('views', path.join(__dirname, 'views'));
+
+// serving static files middleware, which will set the root directory to public
+app.use(express.static(path.join(__dirname, 'public')));
 
 // GLOBAL MIDDLEWARES
 // for setting security HTTP headers
@@ -56,9 +66,6 @@ app.use(
   })
 ); // clears up the query string in the URL
 
-// serving static files middleware
-app.use(express.static(`${__dirname}/public`));
-
 // testing middleware
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
@@ -66,6 +73,7 @@ app.use((req, res, next) => {
 });
 
 // mount routers // essentially, the routes are middlewares mounted on the routes
+app.use('/', viewRouter);
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reviews', reviewRouter);
