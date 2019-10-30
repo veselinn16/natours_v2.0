@@ -96,12 +96,12 @@ const tourSchema = new mongoose.Schema(
         type: {
           type: String,
           default: 'Point',
-          enum: ['Point'],
-          coordinates: [Number],
-          address: String,
-          description: String,
-          day: Number // day in which people will go to location
-        }
+          enum: ['Point']
+        },
+        coordinates: [Number],
+        address: String,
+        description: String,
+        day: Number // day in which people will go to location
       }
     ],
     guides: [
