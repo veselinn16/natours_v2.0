@@ -19,7 +19,7 @@ locations.forEach(location => {
   el.className = 'marker';
 
   // add marker
-  new mapboxgl.Marker({
+  const marker = new mapboxgl.Marker({
     element: el,
     anchor: 'bottom' // bottom of the pin will be on the exact location
   })
@@ -27,13 +27,15 @@ locations.forEach(location => {
     .addTo(map);
 
   // add popup to marker
-  new mapboxgl.Popup({
+  const popup = new mapboxgl.Popup({
     offset: 30
   })
     .setLngLat(location.coordinates)
-    .setHTML(`<p>Day ${location.day}: ${location.description}</p>`)
-    .addTo(map);
+    .setHTML(`<p>Day ${location.day}: ${location.description}</p>`);
+  // .addTo(map);
 
+  // add popup to marker
+  marker.setPopup(popup);
   // extend map's bounds to include current location
   bounds.extend(location.coordinates);
 });
