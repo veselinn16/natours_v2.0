@@ -1,5 +1,13 @@
 extends base
-include _reviewCard                
+include _reviewCard     
+
+//- include the map
+block append head
+    //- use defer to allow DOM to be loaded
+    script(src='/js/mapbox.js' defer)
+    script(src='https://api.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.js')
+    link(href='https://api.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.css' rel='stylesheet')
+
 
 mixin overviewBox(label, text, icon)
     .overview-box__detail
@@ -54,6 +62,7 @@ block content
                     
         .description-box
             h2.heading-secondary.ma-bt-lg= `About ${tour.name} tour`
+            //- split the paragraphs on a \n
             - const paragraphs = tour.description.split('\n')
 
             each paragraph in paragraphs
@@ -65,7 +74,7 @@ block content
                 img.picture-box__img(src=`/img/tours/${image}`, alt=`${tour.name} ${i + 1}`, class=`picture-box__img--${i + 1}`)
 
     section.section-map
-        #map
+        #map(data-locations=`${JSON.stringify(tour.locations)}`)
 
     section.section-reviews
         .reviews
@@ -83,3 +92,5 @@ block content
                 h2.heading-secondary What are you waiting for?
                 p.cta__text= `${tour.duration} days. 1 adventure. Infinite memories. Make it yours today!`
                 button.btn.btn--green.span-all-rows Book tour now!
+
+    #tour(data-tour=`${JSON.stringify(tour)}`)

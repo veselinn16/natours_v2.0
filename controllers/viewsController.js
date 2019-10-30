@@ -33,7 +33,7 @@ exports.getTour = catchAsync(async (req, res) => {
 
   // render template using data from DB
   res.status(200).render('tour', {
-    title: tour.title,
+    title: `${tour.name} Tour`,
     tour
   });
 });
