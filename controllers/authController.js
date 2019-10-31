@@ -89,6 +89,9 @@ exports.protect = catchAsync(async (req, res, next) => {
   ) {
     // if authorization header exists and contains a token, extract token
     token = req.headers.authorization.split(' ')[1];
+  } else if (req.cookies.jwt) {
+    // if there's not authorization header, look for JWT in the request object
+    token = req.cookies.jwt;
   }
 
   // verify token
@@ -117,6 +120,35 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   // grant access to protected route if all steps are successful
   req.user = currentUser; // puts user onto the request object in order to make it available to the next middleware
+  next();
+});
+
+// this middleware is only for the rendered pages that need to know if there is a logged in user or not
+// there will never be an error
+exports.isLoggedIn = catchAsync(async (req, res, next) => {
+  if (req.cookies.jwt) {
+    // verify token
+    const decodedPayload = await promisify(jwt.verify)(
+      req.cookies.jwt,
+      process.env.JWT_SECRET
+    );
+
+    // check if user still exists. Attackers could have stolen JWT
+    const currentUser = await User.findById(decodedPayload.id);
+    if (!currentUser) return next();
+
+    //check if user has changed password after token was issued
+    if (currentUser.changedPasswordAfter(decodedPayload.iat)) {
+      return next();
+    }
+
+    // there is a logged in user
+    // we put the user on the locals object, which is accessible to all Pug templates
+    res.locals.user = currentUser;
+    return next();
+  }
+
+  // in case there is no cookie, call the next middleware
   next();
 });
 

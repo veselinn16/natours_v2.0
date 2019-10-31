@@ -8,7 +8,7 @@ html
             link(rel='shortcut icon' type='image/png' href='/img/favicon.png')
             link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Lato:300,300i,700')
             title Natours | #{title}
-
+            //- script(src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js' async)
     body
         // Header
         include _header
@@ -20,3 +20,5 @@ html
 
         // Footer
         include _footer
+
+        script(src='/js/bundle.js')
