@@ -130,6 +130,7 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   // grant access to protected route if all steps are successful
   req.user = currentUser; // puts user onto the request object in order to make it available to the next middleware
+  res.locals.user = currentUser; // put user on locals object so we can access it in pug template
   next();
 });
 
