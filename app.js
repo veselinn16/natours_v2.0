@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
+const cookieParser = require('cookie-parser');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -46,6 +47,9 @@ if (process.env.NODE_ENV === 'development') {
 // body parsing middleware, reading data from body into req.body
 app.use(express.json({ limit: '10kb' })); // body cannot be over 10 kb
 
+// cookie parser middleware for reading cookies
+app.use(cookieParser());
+
 // data sanitization against NoSQL query injection
 app.use(mongoSanitize());
 
@@ -66,13 +70,14 @@ app.use(
   })
 ); // clears up the query string in the URL
 
-// testing middleware
+// testing middleware, which logs query time and cookies coming from request
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
+  // console.log(req.cookies);
   next();
 });
 
-// mount routers // essentially, the routes are middlewares mounted on the routes
+// mount routers // essentially, the route handlers are middlewares mounted on the routes
 app.use('/', viewRouter);
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
