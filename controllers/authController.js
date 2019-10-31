@@ -80,6 +80,16 @@ exports.logIn = catchAsync(async (req, res, next) => {
   createAndSendToken(user, 200, res);
 });
 
+// logout user by overwriting the jwt cookie with a fake one, which expires in 10s
+exports.logOut = (req, res) => {
+  res.cookie('jwt', 'loggedout', {
+    expires: new Date(Date.now() + 10 * 1000),
+    httpOnly: true
+  });
+
+  res.status(200).json({ status: 'success' });
+};
+
 exports.protect = catchAsync(async (req, res, next) => {
   // get token and check if it exists
   let token;
@@ -124,33 +134,37 @@ exports.protect = catchAsync(async (req, res, next) => {
 });
 
 // this middleware is only for the rendered pages that need to know if there is a logged in user or not
-// there will never be an error
-exports.isLoggedIn = catchAsync(async (req, res, next) => {
+// there should never be an error
+exports.isLoggedIn = async (req, res, next) => {
   if (req.cookies.jwt) {
-    // verify token
-    const decodedPayload = await promisify(jwt.verify)(
-      req.cookies.jwt,
-      process.env.JWT_SECRET
-    );
+    try {
+      // verify token
+      const decodedPayload = await promisify(jwt.verify)(
+        req.cookies.jwt,
+        process.env.JWT_SECRET
+      );
 
-    // check if user still exists. Attackers could have stolen JWT
-    const currentUser = await User.findById(decodedPayload.id);
-    if (!currentUser) return next();
+      // check if user still exists. Attackers could have stolen JWT
+      const currentUser = await User.findById(decodedPayload.id);
+      if (!currentUser) return next();
 
-    //check if user has changed password after token was issued
-    if (currentUser.changedPasswordAfter(decodedPayload.iat)) {
+      //check if user has changed password after token was issued
+      if (currentUser.changedPasswordAfter(decodedPayload.iat)) {
+        return next();
+      }
+
+      // there is a logged in user
+      // we put the user on the locals object, which is accessible to all Pug templates
+      res.locals.user = currentUser;
+      return next();
+    } catch (err) {
       return next();
     }
-
-    // there is a logged in user
-    // we put the user on the locals object, which is accessible to all Pug templates
-    res.locals.user = currentUser;
-    return next();
   }
 
   // in case there is no cookie, call the next middleware
   next();
-});
+};
 
 exports.restrictTo = (...roles) => {
   // roles is an array of roles strings

@@ -1,11 +1,12 @@
 // This is the entry file - we get data from UI and delegate to the JS modules
 import '@babel/polyfill'; // for newer JS features
-import { login } from './login';
+import { login, logout } from './login';
 import { displayMap } from './mapbox';
 
 // DOM elements
 const mapbox = document.getElementById('map');
 const form = document.querySelector('.form');
+const logOutBtn = document.querySelector('.nav__el--logout');
 
 // values
 
@@ -23,3 +24,5 @@ if (form) {
     login(email, password);
   });
 }
+
+if (logOutBtn) logOutBtn.addEventListener('click', logout);

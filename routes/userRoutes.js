@@ -17,6 +17,7 @@ const {
 const {
   signUp,
   logIn,
+  logOut,
   resetPassword,
   forgotPassword,
   protect,
@@ -29,6 +30,7 @@ const router = express.Router();
 // routes can be accessed by anyone
 router.post('/signup', signUp);
 router.post('/login', logIn);
+router.get('/logout', logOut);
 
 router.post('/forgotPassword', forgotPassword);
 router.patch('/resetPassword/:token', resetPassword);
