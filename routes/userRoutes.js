@@ -11,7 +11,9 @@ const {
   deleteUser,
   getMe,
   updateMe,
-  deleteMe
+  deleteMe,
+  uploadUserPhoto,
+  resizeUserPhoto
 } = userController;
 
 const {
@@ -40,7 +42,7 @@ router.use(protect);
 
 // router.patch('/updateMyPassword', protect, updatePassword); // old version before adding protect middleware
 router.patch('/updateMyPassword', updatePassword);
-router.patch('/updateMe', updateMe);
+router.patch('/updateMe', uploadUserPhoto, resizeUserPhoto, updateMe);
 router.delete('/deleteMe', deleteMe);
 
 router.route('/me').get(getMe, getUser);

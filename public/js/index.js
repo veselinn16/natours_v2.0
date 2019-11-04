@@ -42,7 +42,7 @@ if (userDataForm)
 if (userPasswordForm)
   userPasswordForm.addEventListener('submit', async e => {
     e.preventDefault();
-    const passwordBtn = document.querySelector('.btn--save-pasword');
+    const passwordBtn = document.querySelector('. btn--save-pasword');
     const passwordCurrent = document.getElementById('password-current').value;
     const password = document.getElementById('password').value;
     const passwordConfirm = document.getElementById('password-confirm').value;
