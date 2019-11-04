@@ -47,6 +47,9 @@ if (process.env.NODE_ENV === 'development') {
 // body parsing middleware, reading data from body into req.body
 app.use(express.json({ limit: '10kb' })); // body cannot be over 10 kb
 
+// parse data coming from a url-encoded form
+app.use(express.urlencoded({ extended: true, limit: '10kb' }));
+
 // cookie parser middleware for reading cookies
 app.use(cookieParser());
 

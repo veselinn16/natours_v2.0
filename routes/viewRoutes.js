@@ -6,7 +6,13 @@ const router = express.Router();
 
 // in this controller, we're not using the route() method, because all the requests that are going to be performed are GET requests
 
-const { getOverview, getTour, getLoginForm, getAccount } = viewsController;
+const {
+  getOverview,
+  getTour,
+  getLoginForm,
+  getAccount,
+  updateUserData
+} = viewsController;
 const { isLoggedIn, protect } = authController;
 
 // all routes use this middleware to have access to the user in the pug templates
@@ -19,5 +25,7 @@ router.get('/tour/:slug', isLoggedIn, getTour);
 router.get('/login', isLoggedIn, getLoginForm);
 
 router.get('/me', protect, getAccount);
+
+router.post('/submit-user-data', protect, updateUserData);
 
 module.exports = router;
