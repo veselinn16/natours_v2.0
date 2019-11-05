@@ -1,7 +1,70 @@
 const Tour = require('./../models/tourModel');
-// const APIFeatures = require('./../utils/apiFeatures');
+const multer = require('multer');
+const sharp = require('sharp');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
+
+const multerStorage = multer.memoryStorage();
+
+// checks whether the provided file is an image by looking at the file's mimetype
+const multerFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith('image')) {
+    cb(null, true);
+  } else {
+    cb(new AppError('Please upload only images!', 400), false);
+  }
+};
+
+// multer upload
+const upload = multer({
+  storage: multerStorage,
+  fileFilter: multerFilter
+});
+
+// upload.array('images', 5); // only one field with multiple images
+// multiple fields with images
+exports.uploadTourImages = upload.fields([
+  { name: 'imageCover', maxCount: 1 },
+  { name: 'images', maxCount: 3 }
+]);
+
+exports.resizeTourImages = catchAsync(async (req, res, next) => {
+  if (!req.files || !req.files.imageCover || !req.files.images) return next();
+
+  // put the file name on request body so factory function can update it
+  req.body.imageCover = `tour-${req.params.id}-${Date.now()}-cover.jpeg`;
+
+  // process cover images
+  await sharp(req.files.imageCover[0].buffer)
+    .resize(2000, 1333) // 2:3 aspect ratio
+    .toFormat('jpeg') // convert to jpeg
+    .jpeg({ quality: 90 }) // compress image to 90% quality
+    .toFile(`public/img/tours/${req.body.imageCover}`); // saves to file on disk
+
+  // we need this empty array, because of how the factory function updates the document - it takes whatever is inside of the req.body, so must put everything on req.body
+  req.body.images = [];
+
+  // process other images in a loop
+  await Promise.all(
+    // we're using Promise.all in order to have a way of awaitng the code inside the async function.
+    // async does not work in a foreach loop!!!
+    req.files.images.map(async (img, i) => {
+      const filename = `tour-${req.params.id}-${Date.now()}-${i + 1}.jpeg`;
+
+      await sharp(img.buffer)
+        .resize(2000, 1333) // 2:3 aspect ratio
+        .toFormat('jpeg') // convert to jpeg
+        .jpeg({ quality: 90 }) // compress image to 90% quality
+        .toFile(`public/img/tours/${filename}`); // saves to file on disk
+
+      req.body.images.push(filename);
+    })
+  );
+
+  // returns an object, on which we can call methods
+
+  next();
+});
 
 // factory functions
 const factory = require('./handlerFactory');

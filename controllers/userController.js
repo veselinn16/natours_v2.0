@@ -40,21 +40,21 @@ const upload = multer({
 // middleware for configuring user photos
 exports.uploadUserPhoto = upload.single('photo');
 
-exports.resizeUserPhoto = (req, res, next) => {
+exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
   if (!req.file) return next();
 
   // needed in other middleware
   req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`;
 
   // returns an object, on which we can call methods
-  sharp(req.file.buffer)
+  await sharp(req.file.buffer)
     .resize(500, 500)
     .toFormat('jpeg') // convert to jpeg
     .jpeg({ quality: 90 }) // compress image to 90% quality
     .toFile(`public/img/users/${req.file.filename}`); // saves to file on disk
 
   next();
-};
+});
 
 const filterObj = (obj, ...allowedFields) => {
   const newObj = {};
