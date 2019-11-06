@@ -49,3 +49,13 @@ exports.createBookingCheckout = catchAsync(async (req, res, next) => {
   // redirect creates a new request to the passed in url
   res.redirect(req.originalUrl.split('?')[0]); // remove query string from url for security purposes
 });
+
+exports.createBooking = factory.createOne(Booking);
+
+exports.getAllBookings = factory.getAll(Booking);
+
+exports.getBooking = factory.getOne(Booking);
+
+exports.updateBooking = factory.updateOne(Booking);
+
+exports.deleteBooking = factory.deleteOne(Booking);
