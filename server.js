@@ -31,7 +31,7 @@ mongoose
 // INIT SERVER
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
-  // console.log(`Running in ${process.env.NODE_ENV} mode`);
+  console.log(`Running in ${process.env.NODE_ENV} mode`);
   console.log(`App running on port ${port}`);
 });
 

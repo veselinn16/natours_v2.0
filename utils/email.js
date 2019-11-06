@@ -12,9 +12,17 @@ module.exports = class Email {
   }
 
   newTransport() {
-    if (process.env.NODE_ENV === 'production') {
+    if (process.env.NODE_ENV.trim() === 'production') {
       // transporter for production
-      return 1;
+      // fix this
+      return nodemailer.createTransport({
+        // sendgrid comes as a predefined service so there's no need to configure things like the port
+        service: 'SendGrid',
+        auth: {
+          user: process.env.SENDGRID_USERNAME,
+          pass: process.env.SENDGRID_PASSWORD
+        }
+      });
     }
 
     // transporter for development
