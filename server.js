@@ -23,8 +23,8 @@ mongoose
   .connect(DB, {
     useNewUrlParser: true,
     useCreateIndex: true,
-    useFindAndModify: false,
-    useUnifiedTopology: true
+    useFindAndModify: false
+    // useUnifiedTopology: true
   })
   .then(() => console.log('DB connection is successful'));
 
@@ -37,9 +37,8 @@ const server = app.listen(port, () => {
 
 // safety net for unhandled promises
 process.on('unhandledRejection', err => {
-  // console.log('UNHANDLED REJECTION! 💥 Shutting down...');
-  // console.log(err.name, err.message);
-  console.log(err);
+  console.log('UNHANDLED REJECTION! 💥 Shutting down...');
+  console.log(err.name, err.message);
 
   // gracefully shut down the server and then the app
   server.close(() => {
