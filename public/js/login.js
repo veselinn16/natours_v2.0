@@ -6,7 +6,7 @@ export const login = async (email, password) => {
     const res = await axios({
       method: 'POST',
       // url: 'http://localhost:8000/api/v1/users/login', // for development
-      url: 'api/v1/users/login', // for production
+      url: '/api/v1/users/login', // for production
       data: {
         email,
         password
