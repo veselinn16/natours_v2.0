@@ -182,10 +182,10 @@ tourSchema.pre(/^find/, function(next) {
 });
 
 // POST MIDDLEWARE
-tourSchema.post(/^find/, function(docs, next) {
-  console.log(`Query took ${Date.now() - this.start} milliseconds!`);
-  next();
-});
+// tourSchema.post(/^find/, function(docs, next) {
+//   console.log(`Query took ${Date.now() - this.start} milliseconds!`);
+//   next();
+// });
 
 // AGGREGATION MIDDLEWARE for secret tours
 // tourSchema.pre('aggregate', function(next) {

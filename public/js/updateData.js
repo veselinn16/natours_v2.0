@@ -8,7 +8,8 @@ export const updateUserData = async (data, type) => {
     const url = type === 'password' ? 'updateMyPassword' : 'updateMe';
     const res = await axios({
       method: 'PATCH',
-      url: `http://localhost:8000/api/v1/users/${url}`,
+      // url: `http://localhost:8000/api/v1/users/${url}`, // for development
+      url: `/api/v1/users/${url}`, // for production
       data
     });
 
