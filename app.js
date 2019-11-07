@@ -8,6 +8,7 @@ const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
 const compression = require('compression');
+const cors = require('cors');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -27,6 +28,12 @@ app.enable('trust proxy');
 app.set('view engine', 'pug');
 // the path to the views
 app.set('views', path.join(__dirname, 'views'));
+
+// implement CORS
+app.use(cors());
+
+// handles all OPTIONS requests for all routes and sends back a Access-Control-Allow-Origin header, allowing CORS
+app.options('*', cors());
 
 // serving static files middleware, which will set the root directory to public
 app.use(express.static(path.join(__dirname, 'public')));
