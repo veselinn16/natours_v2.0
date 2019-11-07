@@ -76,7 +76,7 @@ app.use(
 ); // clears up the query string in the URL
 
 // compresses the text we send as a response
-app.user(compression());
+app.use(compression());
 
 // testing middleware, which logs query time and cookies coming from request
 app.use((req, res, next) => {
