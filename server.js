@@ -48,3 +48,12 @@ process.on('unhandledRejection', err => {
     process.exit(1);
   });
 });
+
+// SIGTERM signals are emitted from the Heroku platform every 24h and shut down the app abruptly. This handles all requests when the signal is received before shutting down the app (gracefully shut down)
+process.on('SIGTERM', () => {
+  console.log('---SIGTERM received. Shutting down gracefully!---');
+
+  server.close(() => {
+    console.log('Process terminated!');
+  });
+});

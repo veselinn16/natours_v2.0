@@ -17,7 +17,11 @@ const reviewRouter = require('./routes/reviewRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
 const viewRouter = require('./routes/viewRoutes');
 
+// start express app
 const app = express();
+
+// make app trust proxies to enable to check whether connection is secure(HTTPS) - enable setting of the x-forward-proto header on the request
+app.enable('trust proxy');
 
 // explain that we're going to use Pug for the templating language
 app.set('view engine', 'pug');
