@@ -6,7 +6,7 @@ const AppError = require('../utils/appError');
 
 // give access to alerts in all templates
 exports.alerts = (req, res, next) => {
-  const { alert } = res.query;
+  const { alert } = req.query;
 
   if (alert === 'booking') {
     res.locals.alert =
