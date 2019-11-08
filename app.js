@@ -18,6 +18,8 @@ const reviewRouter = require('./routes/reviewRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
 const viewRouter = require('./routes/viewRoutes');
 
+const bookingController = require('./controllers/bookingController');
+
 // start express app
 const app = express();
 
@@ -51,6 +53,13 @@ const limiter = rateLimit({
 
 // affects routes that only start with /api
 app.use('/api', limiter);
+
+// Stripe webhook route
+app.post(
+  '/webhook-checkout',
+  express.raw({ type: 'application/json' }),
+  bookingController.webHookCheckout
+);
 
 // morgan middleware for development logging
 if (process.env.NODE_ENV === 'development') {

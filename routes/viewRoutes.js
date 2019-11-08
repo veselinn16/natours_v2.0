@@ -20,19 +20,19 @@ const { isLoggedIn, protect } = authController;
 // all routes use this middleware to have access to the user in the pug templates
 // router.use(isLoggedIn); // we can't use it here, because there will be duplicate queries done in the protect middleware, which runs before the getAccount handler
 
-router.get(
-  '/',
-  bookingController.createBookingCheckout,
-  isLoggedIn,
-  getOverview
-);
+router.get('/', isLoggedIn, getOverview);
 
 router.get('/tour/:slug', isLoggedIn, getTour);
 
 router.get('/login', isLoggedIn, getLoginForm);
 
 router.get('/me', protect, getAccount);
-router.get('/my-tours', protect, getMyTours);
+router.get(
+  '/my-tours',
+  // bookingController.createBookingCheckout,
+  protect,
+  getMyTours
+);
 
 router.post('/submit-user-data', protect, updateUserData);
 
