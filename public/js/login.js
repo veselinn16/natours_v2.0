@@ -35,7 +35,7 @@ export const logout = async () => {
     });
 
     // forces a reload from the server cache
-    if (res.data.status === 'success') location.reload(true);
+    if (res.data.status === 'success') location.assign('/');
   } catch (err) {
     showAlert('error', 'Error logging out! Try again!');
   }

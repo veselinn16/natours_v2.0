@@ -44,7 +44,12 @@ exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
   if (!req.file) return next();
 
   // needed in other middleware
-  req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`;
+  req.file.filename = req.user
+    ? `user-${req.user.id}-${Date.now()}.jpeg`
+    : `user-${req.body.name
+        .split(' ')
+        .join('')
+        .toLowerCase()}-${Date.now()}.jpeg`;
 
   // returns an object, on which we can call methods
   await sharp(req.file.buffer)
@@ -52,6 +57,9 @@ exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
     .toFormat('jpeg') // convert to jpeg
     .jpeg({ quality: 90 }) // compress image to 90% quality
     .toFile(`public/img/users/${req.file.filename}`); // saves to file on disk
+
+  // put url to photo on request body, so image can be registered in DB
+  req.body.photo = req.file.filename;
 
   next();
 });

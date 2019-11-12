@@ -16,7 +16,7 @@ const app = require('./app');
 const DB = process.env.DATABASE.replace(
   '<PASSWORD>',
   process.env.DATABASE_PASSWORD
-);
+).replace('<USER>', process.env.DATABSE_USER);
 
 // db connection string - should contain username and password
 console.log(DB);
@@ -31,7 +31,7 @@ mongoose
   .then(() => console.log('DB connection is successful'));
 
 // INIT SERVER
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8000;
 const server = app.listen(port, () => {
   console.log(`Running in ${process.env.NODE_ENV} mode`);
   console.log(`App running on port ${port}`);

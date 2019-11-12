@@ -11,6 +11,7 @@ const {
   getTour,
   getMyTours,
   getLoginForm,
+  getSignupForm,
   getAccount,
   updateUserData
 } = viewsController;
@@ -27,7 +28,10 @@ router.get('/tour/:slug', isLoggedIn, getTour);
 
 router.get('/login', isLoggedIn, getLoginForm);
 
+router.get('/signup', getSignupForm);
+
 router.get('/me', protect, getAccount);
+
 router.get(
   '/my-tours',
   // bookingController.createBookingCheckout,

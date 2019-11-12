@@ -1,6 +1,7 @@
 // This is the entry file - we get data from UI and delegate to the JS modules
 import '@babel/polyfill'; // for newer JS features
 import { login, logout } from './login';
+import { signup } from './signup';
 import { updateUserData } from './updateData';
 import { displayMap } from './mapbox';
 import { bookTour } from './stripe';
@@ -13,15 +14,14 @@ const userDataForm = document.querySelector('.form-user-data');
 const userPasswordForm = document.querySelector('.form-user-password');
 const logOutBtn = document.querySelector('.nav__el--logout');
 const bookButton = document.getElementById('book-tour');
-
-// values
+const signupBtn = document.querySelector('.btn--signup');
 
 if (mapbox) {
   const locations = JSON.parse(mapbox.dataset.locations);
   displayMap(locations);
 }
 
-if (form) {
+if (form && !signupBtn) {
   form.addEventListener('submit', e => {
     e.preventDefault();
 
@@ -32,6 +32,37 @@ if (form) {
 }
 
 if (logOutBtn) logOutBtn.addEventListener('click', logout);
+
+if (signupBtn)
+  signupBtn.addEventListener('click', e => {
+    e.preventDefault();
+
+    // recreating multipart form data
+    const form = new FormData();
+
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const passwordConfirm = document.getElementById('password-confirm').value;
+    const photo = document.getElementById('photo').files[0];
+
+    if (!name || !email || !password || !passwordConfirm)
+      return showAlert(
+        'error',
+        'Please fill out all the required information!'
+      );
+
+    form.append('name', name);
+    form.append('email', email);
+    form.append('password', password);
+    form.append('passwordConfirm', passwordConfirm);
+
+    if (photo) {
+      form.append('photo', photo);
+    }
+
+    signup(form);
+  });
 
 if (userDataForm)
   userDataForm.addEventListener('submit', e => {
@@ -49,7 +80,8 @@ if (userDataForm)
 if (userPasswordForm)
   userPasswordForm.addEventListener('submit', async e => {
     e.preventDefault();
-    const passwordBtn = document.querySelector('. btn--save-pasword');
+
+    const passwordBtn = document.querySelector('.btn--save-pasword');
     const passwordCurrent = document.getElementById('password-current').value;
     const password = document.getElementById('password').value;
     const passwordConfirm = document.getElementById('password-confirm').value;

@@ -1290,6 +1290,38 @@ body {
   margin-right: 2rem;
 }
 
+.form__user-photo--centered {
+  height: 7.5rem;
+  width: 7.5rem;
+  border: 2px solid #55c57a;
+  display: flex;
+  justify-content: center;
+  border-radius: 50%;
+  align-items: center;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.label__user-photo {
+  border: none !important;
+  box-shadow: none !important;
+  background-color: inherit !important;
+}
+
+.label__user-photo:hover .form__user-photo--centered {
+  background: #55c57a;
+}
+
+.label__user-photo:hover > .form__user-photo--centered > i {
+  color: #fff;
+}
+
+.form__user-photo--centered i {
+  color: #55c57a;
+  position: relative;
+  top: 2px;
+}
+
 .form__upload {
   width: 0.1px;
   height: 0.1px;

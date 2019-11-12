@@ -30,7 +30,7 @@ const {
 const router = express.Router();
 
 // routes can be accessed by anyone
-router.post('/signup', signUp);
+router.post('/signup', uploadUserPhoto, resizeUserPhoto, signUp);
 router.post('/login', logIn);
 router.get('/logout', logOut);
 
