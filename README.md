@@ -52,23 +52,23 @@ The project makes use of a variety of 3rd-party libraries to be able to deliver 
 - Babel - used for future-proofing the JS code
 - Axios - used for consistent network requests across browsers
 - Bcrypt - used for hashing user passwords
-- Compression - Express middleware for compressing build files
-- Cookie-parser
+- Compression - Express middleware for compressing responses
+- Cookie-parser - used for parsing the cookies from the request body
 - CORS - used for Cross-origin Resource Sharing
-- Dot Env -
-- Helmet - midlleware for
-- HPP
+- Dot Env - used for specifying the path to the .env file
+- Helmet - midlleware for setting security HTTP headers
+- HPP - Express middleware used for preventing parameter pollution
 - JSONWebToken - used for user authentication
 - Morgan - Express middleware for development debugging
-- Multer
+- Multer - Express middleware used for uploading user images
 - Nodemailer - used for development emails
-- Sharp
+- Sharp - used for processing uploaded user images
 - Slugify - used for providing convenient resource IDs
 - Stripe - used for the payment functionality
-- Validator
+- Validator - used for validating strings in the models
 - XSS-clean - used for protection against cross-side scripting attacks
 - Parcel - used for bundling front-end code
 
 ## The Real Thing
 
-You can see a live version of the website [here](https://natours-initial.herokuapp.com/). Currently, the sign up functionaloty is being implemented, so users will be able to sign up with their own accounts. Until then, feel free to reach out and I will be happy to share a test account with you. :smile:
+You can see a live version of the website [here](https://natours-initial.herokuapp.com/).
