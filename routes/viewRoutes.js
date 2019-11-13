@@ -11,6 +11,7 @@ const {
   getAbout,
   getTour,
   getMyTours,
+  getMyReviews,
   getLoginForm,
   getSignupForm,
   getAccount,
@@ -41,6 +42,8 @@ router.get(
   protect,
   getMyTours
 );
+
+router.get('/my-reviews', protect, getMyReviews);
 
 router.post('/submit-user-data', protect, updateUserData);
 
