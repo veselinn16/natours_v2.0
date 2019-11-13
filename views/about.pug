@@ -1,0 +1,52 @@
+extends base
+
+block append head
+    link(href='https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' rel='stylesheet')
+
+block content
+    main.main.main__about
+        h2.heading-secondary.heading-secondary--big Who we are
+        section.creators
+            .creators__gallery
+                .card.creator
+                    .card__creator
+                        img.creator__img(src='/img/creator1.jpg' alt='Veselin Tonev')
+                        .card__footer.card__footer--about
+                            h2.heading-secondary Veselin Tonev
+                            h3 (the developer)
+                .card.creator
+                    .card__creator
+                        img.creator__img(src='/img/creator2.jpg' alt='Vasilena Koleva')
+                        .card__footer.card__footer--about
+                            h2.heading-secondary Vasilena Koleva
+                            h3.heading-tertiary (the visionary)
+
+        
+        section.cta.cta__about
+            .cta__about--image-container
+                i.fa.fa-camera.cta__about--image
+            .cta__about-content
+                h2.heading-secondary Help you explore the country
+                p.cta__text Our tours are hand-picked by experienced adventurers
+            .cta__about-headline
+                h2.heading-secondary.heading-secondary--medium Our Mission
+
+        section.cta.cta__about
+            .cta__about-headline
+                h2.heading-secondary.heading-secondary--medium Your Mission
+            .cta__about-content
+                h2.heading-secondary Make memories that last forever
+                p.cta__text All the organization is handled by our team, so you don't have to worry about anything and just have fun
+            .cta__about--image-container
+                i.fa.fa-smile-o.cta__about--image
+
+        section.cta.cta__about
+            .cta__about--image-container
+                i.fa.fa-star.cta__about--image
+            .cta__about-content
+                h2.heading-secondary Interested in joining us?
+                p.cta__text Just drop an email on to us at the 
+                    a.link.link__about(href='/contacts') contacts page
+            h2.heading-secondary.heading-secondary--medium Become a member
+
+        

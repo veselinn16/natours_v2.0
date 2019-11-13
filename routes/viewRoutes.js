@@ -8,6 +8,7 @@ const router = express.Router();
 
 const {
   getOverview,
+  getAbout,
   getTour,
   getMyTours,
   getLoginForm,
@@ -23,6 +24,8 @@ const { isLoggedIn, protect } = authController;
 router.use(viewsController.alerts);
 
 router.get('/', isLoggedIn, getOverview);
+
+router.get('/about', getAbout);
 
 router.get('/tour/:slug', isLoggedIn, getTour);
 
