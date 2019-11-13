@@ -192,6 +192,19 @@ body {
   margin: 0 auto;
 }
 
+.heading-primary--green {
+  background-image: -webkit-gradient(
+    linear,
+    left top,
+    right top,
+    from(#7dd56f),
+    to(#28b487)
+  );
+  background-image: linear-gradient(to right, #7dd56f, #28b487);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
 .heading-tertirary {
   font-size: 2.75rem;
   text-align: right;
@@ -200,6 +213,15 @@ body {
   right: 2rem;
   width: 70%;
   z-index: 10;
+}
+
+.message {
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 17rem;
 }
 
 .btn,

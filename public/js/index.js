@@ -15,6 +15,7 @@ const userPasswordForm = document.querySelector('.form-user-password');
 const logOutBtn = document.querySelector('.nav__el--logout');
 const bookButton = document.getElementById('book-tour');
 const signupBtn = document.querySelector('.btn--signup');
+const accountSideNav = document.querySelector('.side-nav');
 
 if (mapbox) {
   const locations = JSON.parse(mapbox.dataset.locations);
@@ -113,3 +114,16 @@ if (bookButton) {
 const alertMessage = document.querySelector('body').dataset.alert;
 
 if (alertMessage) showAlert('success', alertMessage, 17);
+
+// toggle the active class on side menu list items
+if (accountSideNav) {
+  accountSideNav.addEventListener('click', e => {
+    const sideEls = Array.from(accountSideNav.children);
+
+    sideEls.forEach(child => {
+      child.classList.remove('side-nav--active');
+    });
+
+    e.target.parentElement.classList.add('side-nav--active');
+  });
+}
