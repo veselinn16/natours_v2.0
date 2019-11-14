@@ -1,0 +1,19 @@
+extends base
+
+block content
+    main.main
+        .login-form
+            h2.heading-secondary.ma-bt-lg Your billing information
+            p.cta__text.cta__text--billing * Not implemented for security reasons
+            form.form.form--billing
+                .form__group
+                    label.form__label(for='card') Card Number
+                    input#card.form__input(type='text', minlength='19', maxlength='19' placeholder='•••• •••• •••• ••••', required) 
+                .form__group
+                    label.form__label(for='card-expiration') Card Expiration Date
+                    input#card-expiration.form__input(type='text', validate, min=`${new Date(Date.now()).toLocaleDateString(undefined, { month: '2-digit', year: '2-digit'})}`, placeholder='MM / YY', required)
+                .form__group.ma-bt-md
+                    label.form__label(for='card-name') Name on Card
+                    input#card-name.form__input(type='text', placeholder='Tyler Clancy', required)
+                .form__group
+                    button.btn.btn--green Submit

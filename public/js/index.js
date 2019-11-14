@@ -10,6 +10,12 @@ import { showAlert } from './alerts';
 // DOM elements
 const mapbox = document.getElementById('map');
 const form = document.querySelector('.form--login');
+// billing
+const formBilling = document.querySelector('.form--billing');
+const cardNumber = document.getElementById('card');
+const cardExpiration = document.getElementById('card-expiration');
+const cardName = document.getElementById('card-name');
+
 const userDataForm = document.querySelector('.form-user-data');
 const userPasswordForm = document.querySelector('.form-user-password');
 const logOutBtn = document.querySelector('.nav__el--logout');
@@ -126,4 +132,48 @@ if (accountSideNav) {
 
     e.target.parentElement.classList.add('side-nav--active');
   });
+}
+
+// billing form
+if (formBilling) {
+  formBilling.onsubmit = e => {
+    e.preventDefault();
+
+    const form = new FormData();
+    form.append('card', cardNumber.value);
+    form.append('cardExpiration', cardExpiration.value);
+    form.append('cardName', cardName.value);
+
+    // console.log({
+    //   cardNumber: cardNumber.value,
+    //   cardExpiration: cardExpiration.value,
+    //   cardName: cardName.value
+    // });
+  };
+}
+
+if (cardNumber) {
+  cardNumber.oninput = e => {
+    switch (e.target.value.length) {
+      case 4:
+        e.target.value += ' ';
+        break;
+      case 9:
+        e.target.value += ' ';
+        break;
+      case 14:
+        e.target.value += ' ';
+        break;
+      default:
+        return e.target.value;
+    }
+  };
+}
+
+if (cardExpiration) {
+  cardExpiration.oninput = e => {
+    if (e.target.value.length === 2) {
+      e.target.value += '/';
+    }
+  };
 }

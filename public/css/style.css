@@ -140,6 +140,15 @@ body {
   font-size: 6rem;
   text-align: center;
   margin-bottom: 2rem;
+  animation: moveInTop 1.5s ease-out;
+}
+@keyframes moveInTop {
+  from {
+    transform: translateY(-30%);
+  }
+  to {
+    transform: translateY(0);
+  }
 }
 
 .heading-secondary--medium {
@@ -844,6 +853,10 @@ body {
   font-size: 1.9rem;
   font-weight: 400;
 }
+.cta__text--billing {
+  margin-top: -3rem;
+  margin-bottom: 2rem;
+}
 
 .user-view {
   background-color: #fff;
@@ -1211,9 +1224,34 @@ body {
   justify-content: space-around;
 }
 
+@keyframes moveInLeft {
+  from {
+    transform: translateX(-40%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes moveInRight {
+  from {
+    transform: translateX(40%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.creator1 {
+  animation: moveInLeft 1.8s ease-out;
+}
+.creator2 {
+  animation: moveInRight 1.8s ease-out;
+}
+
 .creator {
   -webkit-box-shadow: 0 2.5rem 8rem 2rem rgba(85, 197, 122, 0.2);
   box-shadow: 0 2.5rem 8rem 2rem rgba(85, 197, 122, 0.2);
+  transition: transform 0.3s;
 }
 
 .card__creator {

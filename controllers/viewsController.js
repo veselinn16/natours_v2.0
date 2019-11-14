@@ -71,6 +71,12 @@ exports.getSignupForm = (req, res) => {
   });
 };
 
+exports.getBillingForm = (req, res) => {
+  res.status(200).render('billing', {
+    title: 'My Billing Information'
+  });
+};
+
 exports.getAbout = (req, res) => {
   res.status(200).render('about', {
     title: 'About Us'

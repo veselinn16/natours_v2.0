@@ -14,6 +14,7 @@ const {
   getMyReviews,
   getLoginForm,
   getSignupForm,
+  getBillingForm,
   getAccount,
   updateUserData
 } = viewsController;
@@ -33,6 +34,8 @@ router.get('/tour/:slug', isLoggedIn, getTour);
 router.get('/login', isLoggedIn, getLoginForm);
 
 router.get('/signup', getSignupForm);
+
+router.get('/billing', protect, getBillingForm);
 
 router.get('/me', protect, getAccount);
 
