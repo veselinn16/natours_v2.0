@@ -24,7 +24,8 @@ const {
   forgotPassword,
   protect,
   restrictTo,
-  updatePassword
+  updatePassword,
+  sendContactsMessage
 } = authController;
 
 const router = express.Router();
@@ -33,6 +34,7 @@ const router = express.Router();
 router.post('/signup', uploadUserPhoto, resizeUserPhoto, signUp);
 router.post('/login', logIn);
 router.get('/logout', logOut);
+router.post('/contacts', sendContactsMessage);
 
 router.post('/forgotPassword', forgotPassword);
 router.patch('/resetPassword/:token', resetPassword);

@@ -83,6 +83,12 @@ exports.getAbout = (req, res) => {
   });
 };
 
+exports.getContacts = (req, res) => {
+  res.status(200).render('contacts', {
+    title: 'Contact Us'
+  });
+};
+
 exports.getAccount = (req, res) => {
   res.status(200).render('account', {
     title: 'Your account'

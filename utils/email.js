@@ -4,11 +4,12 @@ const htmlToText = require('html-to-text');
 
 // new Email(user, url).sendWelcome()
 module.exports = class Email {
-  constructor(user, url) {
-    this.to = user.email;
+  constructor(user, url, from) {
+    this.to = from ? `Veselin Tonev <${process.env.EMAIL_FROM}>` : user.email;
     this.firstName = user.name.split(' ')[0];
+    // for the button's href in the email
     this.url = url;
-    this.from = `Veselin Tonev <${process.env.EMAIL_FROM}>`;
+    this.from = from || `Veselin Tonev <${process.env.EMAIL_FROM}>`;
   }
 
   newTransport() {
@@ -37,14 +38,16 @@ module.exports = class Email {
   }
 
   // send the actual email
-  async send(template, subject) {
+  async send(template, subject, message, user) {
     // render HTML for email based on Pug template
     const html = pug.renderFile(
       `${__dirname}/../views/emails/${template}.pug`,
       {
         firstName: this.firstName,
         url: this.url,
-        subject
+        subject,
+        message,
+        user
       }
     );
 
@@ -70,5 +73,9 @@ module.exports = class Email {
       'passwordReset',
       'Your password reset token (valid for 10 mins.)'
     );
+  }
+
+  async sendContactsMessage(subject, message, user) {
+    await this.send('contactsMessage', subject, message, user);
   }
 };

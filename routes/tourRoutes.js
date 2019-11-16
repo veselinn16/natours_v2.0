@@ -20,7 +20,7 @@ const {
   // checkBody
 } = tourController;
 
-const { protect, restrictTo } = authController;
+const { protect, restrictTo, sendContactsMessage } = authController;
 
 const router = express.Router();
 

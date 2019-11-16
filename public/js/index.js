@@ -2,6 +2,7 @@
 import '@babel/polyfill'; // for newer JS features
 import { login, logout } from './login';
 import { signup } from './signup';
+import { sendContactsEmail } from './contact';
 import { updateUserData } from './updateData';
 import { displayMap } from './mapbox';
 import { bookTour } from './stripe';
@@ -21,6 +22,7 @@ const userPasswordForm = document.querySelector('.form-user-password');
 const logOutBtn = document.querySelector('.nav__el--logout');
 const bookButton = document.getElementById('book-tour');
 const signupBtn = document.querySelector('.btn--signup');
+const contactsBtn = document.querySelector('.btn--contacts');
 const accountSideNav = document.querySelector('.side-nav');
 
 if (mapbox) {
@@ -28,7 +30,7 @@ if (mapbox) {
   displayMap(locations);
 }
 
-if (form && !signupBtn) {
+if (form && !signupBtn && !contactsBtn) {
   form.addEventListener('submit', e => {
     e.preventDefault();
 
@@ -38,9 +40,11 @@ if (form && !signupBtn) {
   });
 }
 
-if (logOutBtn) logOutBtn.addEventListener('click', logout);
+if (logOutBtn) {
+  logOutBtn.addEventListener('click', logout);
+}
 
-if (signupBtn)
+if (signupBtn) {
   signupBtn.addEventListener('click', e => {
     e.preventDefault();
 
@@ -70,8 +74,9 @@ if (signupBtn)
 
     signup(form);
   });
+}
 
-if (userDataForm)
+if (userDataForm) {
   userDataForm.addEventListener('submit', e => {
     e.preventDefault();
 
@@ -83,8 +88,9 @@ if (userDataForm)
 
     updateUserData(form, 'data');
   });
+}
 
-if (userPasswordForm)
+if (userPasswordForm) {
   userPasswordForm.addEventListener('submit', async e => {
     e.preventDefault();
 
@@ -99,14 +105,8 @@ if (userPasswordForm)
       { passwordCurrent, password, passwordConfirm },
       'password'
     );
-
-    // clear inputs
-    passwordBtn.textContent = 'Save Password';
-    passwordCurrent = document.getElementById('password-current').value = '';
-    password = document.getElementById('password').value = '';
-    passwordConfirm = document.getElementById('password-confirm').value = '';
-    passwordConfirm = document.getElementById('password-confirm').value;
   });
+}
 
 if (bookButton) {
   bookButton.addEventListener('click', e => {
@@ -175,5 +175,25 @@ if (cardExpiration) {
     if (e.target.value.length === 2) {
       e.target.value += '/';
     }
+  };
+}
+
+if (contactsBtn) {
+  contactsBtn.onclick = e => {
+    e.preventDefault();
+    const radios = document.querySelectorAll('.radio');
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const message = document.getElementById('message').value;
+    let subject = `Client message: ${
+      Array.from(radios).filter(radio => radio.checked)[0].value
+    }`;
+
+    sendContactsEmail({
+      email,
+      subject,
+      name,
+      message
+    });
   };
 }

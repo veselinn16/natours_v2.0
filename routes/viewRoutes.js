@@ -9,6 +9,7 @@ const router = express.Router();
 const {
   getOverview,
   getAbout,
+  getContacts,
   getTour,
   getMyTours,
   getMyReviews,
@@ -18,6 +19,7 @@ const {
   getAccount,
   updateUserData
 } = viewsController;
+
 const { isLoggedIn, protect } = authController;
 
 // all routes use this middleware to have access to the user in the pug templates
@@ -28,6 +30,8 @@ router.use(viewsController.alerts);
 router.get('/', isLoggedIn, getOverview);
 
 router.get('/about', getAbout);
+
+router.get('/contacts', getContacts);
 
 router.get('/tour/:slug', isLoggedIn, getTour);
 

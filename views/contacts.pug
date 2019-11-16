@@ -1,0 +1,39 @@
+extends base 
+
+block content
+    main.main.main--contacts
+        .contacts
+            h1.heading-secondary.heading-secondary--big Say Hello
+            .contacts__grid
+                h2.contacts__item Sofia, bul. Vitosha 123
+                h2.contacts__item +359 123-456-789
+                h2.contacts__item block F, ent. 3, office 1
+                h2.contacts__item veselinn16@yahoo.com
+        .login-form.contacts-form
+            form.form.form--login
+                .form__group
+                    label.form__label(for='name') Your Name*
+                    input#name.form__input(type='name', placeholder='Tyler Clancy', required) 
+                .form__group
+                    label.form__label(for='email') Email address*
+                    input#email.form__input(type='email', placeholder='you@example.com', required) 
+                .form__group
+                    label.form__label(for='password') Message*
+                    input#message.form__input.form__message(type='text', placeholder='Your message...', min='10')
+                .form__group
+                    fieldset#radio-group.contacts__radio(name='radios')                        
+                        legend.form__label How can we help you?*
+                            label.radio(for='info')
+                                input#info.radio(type='radio', name='radio-group' value='Information about tour')
+                                span Information about tour
+                            label.radio(for='problem')
+                                input#problem.radio(type='radio', name='radio-group' value='Problem with a tour')
+                                span Problem with a tour
+                            label.radio(for='booking')
+                                input#booking.radio(type='radio', name='radio-group' value='Tour booking')
+                                span Tour booking
+                            label.radio(for='business')
+                                input#business.radio(type='radio', name='radio-group' value='Business matters')
+                                span Business matters                            
+                .form__group
+                    button.btn.btn--green.btn--contacts Send email

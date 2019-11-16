@@ -77,6 +77,8 @@ block content
 
     section.section-reviews
         .reviews
+            if tour.reviews.length === 0
+                h1.heading-primary No reviews for this tour yet!
 
             each review in tour.reviews
                 +reviewCard(review)

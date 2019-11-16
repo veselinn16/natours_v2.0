@@ -13,8 +13,11 @@ export const updateUserData = async (data, type) => {
       data
     });
 
-    if (res.data.status === 'success')
+    if (res.data.status === 'success') {
       showAlert('success', `${type.toUpperCase()} updated successfully!`);
+
+      // res.location.reset()
+    }
   } catch (err) {
     showAlert('error', err.response.data.message);
   }

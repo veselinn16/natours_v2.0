@@ -265,5 +265,35 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   user.passwordConfirm = req.body.passwordConfirm;
   await user.save();
 
+  const url = `${req.protocol}://${req.get('host')}/`;
+
+  await new Email(user, url).sendResetPassword();
+
+  res.status(200).json({
+    status: 'success',
+    message: 'Token sent to email!'
+  });
+
   createAndSendToken(user, 200, req, res);
+});
+
+exports.sendContactsMessage = catchAsync(async (req, res, next) => {
+  const { email, subject, name, message } = req.body;
+
+  const user = {
+    name,
+    email
+  };
+
+  const url = `${req.protocol}://${req.get('host')}/`;
+  await new Email(user, url, `${name} <${email}>`).sendContactsMessage(
+    subject,
+    message,
+    user
+  );
+
+  res.status(200).json({
+    status: 'success',
+    message: 'Your message has been sent!'
+  });
 });
