@@ -16,12 +16,12 @@ export const updateUserData = async (data, type) => {
     if (res.data.status === 'success') {
       showAlert('success', `${type.toUpperCase()} updated successfully!`);
       if (type === 'password') {
-        document.querySelector('.btn--save-pasword').textContent = 'Done!';
+        document.querySelector('.btn--save-pasword').textContent = 'Done';
       }
 
       setTimeout(() => {
         // reset page
-        window.location.assign('/');
+        window.location.assign('/login');
       }, 1500);
     }
   } catch (err) {

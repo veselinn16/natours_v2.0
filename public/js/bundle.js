@@ -8657,12 +8657,12 @@ function () {
               (0, _alerts.showAlert)('success', "".concat(type.toUpperCase(), " updated successfully!"));
 
               if (type === 'password') {
-                document.querySelector('.btn--save-pasword').textContent = 'Done!';
+                document.querySelector('.btn--save-pasword').textContent = 'Done';
               }
 
               setTimeout(function () {
                 // reset page
-                window.location.assign('/');
+                window.location.assign('/login');
               }, 1500);
             }
 
@@ -9316,7 +9316,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55472" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58547" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
