@@ -75,6 +75,10 @@ module.exports = class Email {
     );
   }
 
+  async sendModifiedPassword() {
+    await this.send('passwordModified', 'Your Password has Been Reset!');
+  }
+
   async sendContactsMessage(subject, message, user) {
     await this.send('contactsMessage', subject, message, user);
   }

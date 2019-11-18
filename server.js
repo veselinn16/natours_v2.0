@@ -19,7 +19,7 @@ const DB = process.env.DATABASE.replace(
 ).replace('<USER>', process.env.DATABSE_USER);
 
 // db connection string - should contain username and password
-console.log(DB);
+// console.log(DB);
 
 mongoose
   .connect(DB, {

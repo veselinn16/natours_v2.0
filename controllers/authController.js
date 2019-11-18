@@ -249,6 +249,9 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   user.passwordResetExpires = undefined;
   await user.save();
 
+  const url = `${req.protocol}://${req.get('host')}/`;
+  await new Email(user, url).sendModifiedPassword();
+
   createAndSendToken(user, 200, req, res);
 });
 
@@ -265,16 +268,18 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   user.passwordConfirm = req.body.passwordConfirm;
   await user.save();
 
+  // url for the buttons in the email
   const url = `${req.protocol}://${req.get('host')}/`;
 
-  await new Email(user, url).sendResetPassword();
+  // send email notifying user of modified password
+  await new Email(user, url).sendModifiedPassword();
+
+  // createAndSendToken(user, 200, req, res);
 
   res.status(200).json({
     status: 'success',
     message: 'Token sent to email!'
   });
-
-  createAndSendToken(user, 200, req, res);
 });
 
 exports.sendContactsMessage = catchAsync(async (req, res, next) => {

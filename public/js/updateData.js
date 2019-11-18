@@ -15,10 +15,20 @@ export const updateUserData = async (data, type) => {
 
     if (res.data.status === 'success') {
       showAlert('success', `${type.toUpperCase()} updated successfully!`);
+      if (type === 'password') {
+        document.querySelector('.btn--save-pasword').textContent = 'Done!';
+      }
 
-      // res.location.reset()
+      setTimeout(() => {
+        // reset page
+        window.location.assign('/');
+      }, 1500);
     }
   } catch (err) {
+    if (type === 'password') {
+      document.querySelector('.btn--save-pasword').textContent =
+        'Save password';
+    }
     showAlert('error', err.response.data.message);
   }
 };

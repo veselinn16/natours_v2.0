@@ -8654,18 +8654,32 @@ function () {
             res = _context.sent;
 
             if (res.data.status === 'success') {
-              (0, _alerts.showAlert)('success', "".concat(type.toUpperCase(), " updated successfully!")); // res.location.reset()
+              (0, _alerts.showAlert)('success', "".concat(type.toUpperCase(), " updated successfully!"));
+
+              if (type === 'password') {
+                document.querySelector('.btn--save-pasword').textContent = 'Done!';
+              }
+
+              setTimeout(function () {
+                // reset page
+                window.location.assign('/');
+              }, 1500);
             }
 
-            _context.next = 11;
+            _context.next = 12;
             break;
 
           case 8:
             _context.prev = 8;
             _context.t0 = _context["catch"](0);
+
+            if (type === 'password') {
+              document.querySelector('.btn--save-pasword').textContent = 'Save password';
+            }
+
             (0, _alerts.showAlert)('error', _context.t0.response.data.message);
 
-          case 11:
+          case 12:
           case "end":
             return _context.stop();
         }
@@ -9302,7 +9316,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50944" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55472" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
