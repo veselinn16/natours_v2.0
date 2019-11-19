@@ -20,7 +20,7 @@ const {
   // checkBody
 } = tourController;
 
-const { protect, restrictTo, sendContactsMessage } = authController;
+const { protect, isLoggedIn, restrictTo } = authController;
 
 const router = express.Router();
 
@@ -58,7 +58,7 @@ router
 
 router
   .route('/:id')
-  .get(getTour)
+  .get(isLoggedIn, getTour)
   .patch(
     protect,
     restrictTo('admin', 'lead-guide'),
