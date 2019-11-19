@@ -18,11 +18,10 @@ const {
   getBillingForm,
   getAccount,
   getForgotPassword,
-  updateUserData,
-  getUser
+  updateUserData
 } = viewsController;
 
-const { isLoggedIn, protect } = authController;
+const { isLoggedIn, getUser, protect } = authController;
 
 // all routes use this middleware to have access to the user in the pug templates
 // router.use(isLoggedIn); // we can't use it here, because there will be duplicate queries done in the protect middleware, which runs before the getAccount handler

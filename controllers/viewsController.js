@@ -78,24 +78,6 @@ exports.getBillingForm = (req, res) => {
   });
 };
 
-exports.getUser = catchAsync(async (req, res, next) => {
-  // if there's not jwt or jtw has a value of loggedout, user's not logged in
-  if (!req.headers.cookie || req.headers.cookie.includes('loggedout'))
-    return next();
-
-  // put user on request object
-  const decoded = jwt.verify(
-    req.headers.cookie.split('=')[1],
-    process.env.JWT_SECRET
-  );
-
-  const user = await User.findById(decoded.id);
-
-  req.user = user;
-
-  next();
-});
-
 exports.getAbout = async (req, res) => {
   res.status(200).render('about', {
     title: 'About Us',
