@@ -85,23 +85,23 @@ exports.logIn = catchAsync(async (req, res, next) => {
   createAndSendToken(user, 200, req, res);
 });
 
-exports.getUser = catchAsync(async (req, res, next) => {
-  // if there's not jwt or jtw has a value of loggedout, user's not logged in
-  if (!req.headers.cookie || req.headers.cookie.includes('loggedout'))
-    return next();
+// exports.getUser = catchAsync(async (req, res, next) => {
+//   // if there's not jwt or jtw has a value of loggedout, user's not logged in
+//   if (!req.headers.cookie || req.headers.cookie.includes('loggedout'))
+//     return next();
 
-  // put user on request object
-  const decoded = jwt.verify(
-    req.headers.cookie.split('=')[1],
-    process.env.JWT_SECRET
-  );
+//   // put user on request object
+//   const decoded = jwt.verify(
+//     req.headers.cookie.split('=')[1],
+//     process.env.JWT_SECRET
+//   );
 
-  const user = await User.findById(decoded.id);
+//   const user = await User.findById(decoded.id);
 
-  req.user = user;
+//   req.user = user;
 
-  next();
-});
+//   next();
+// });
 
 // logout user by overwriting the jwt cookie with a fake one, which expires in 10s
 exports.logOut = (req, res) => {

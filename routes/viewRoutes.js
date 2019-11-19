@@ -21,7 +21,7 @@ const {
   updateUserData
 } = viewsController;
 
-const { isLoggedIn, getUser, protect } = authController;
+const { isLoggedIn, protect } = authController;
 
 // all routes use this middleware to have access to the user in the pug templates
 // router.use(isLoggedIn); // we can't use it here, because there will be duplicate queries done in the protect middleware, which runs before the getAccount handler
@@ -30,9 +30,9 @@ router.use(viewsController.alerts);
 
 router.get('/', isLoggedIn, getOverview);
 
-router.get('/about', getUser, getAbout);
+router.get('/about', isLoggedIn, getAbout);
 
-router.get('/contacts', getUser, getContacts);
+router.get('/contacts', isLoggedIn, getContacts);
 
 router.get('/tour/:slug', isLoggedIn, getTour);
 

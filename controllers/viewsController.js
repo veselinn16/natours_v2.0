@@ -44,10 +44,21 @@ exports.getTour = catchAsync(async (req, res, next) => {
 
   const tour = await Tour.findOne({ slug: req.params.slug }).populate({
     path: 'reviews',
-    fields: 'review rating user'
+    fields: 'review rating user',
+    populate: {
+      path: 'user'
+    }
   });
 
-  // now we need to build the template - in pug
+  let reviewByUser = false;
+  if (req.user) {
+    tour.reviews.forEach(review => {
+      if (review.user.id === req.user.id) {
+        reviewByUser = true;
+      }
+    });
+  }
+  // now we build the template - in pug
 
   if (!tour) {
     return next(new AppError('There is no tour with that name', 404));
@@ -56,7 +67,8 @@ exports.getTour = catchAsync(async (req, res, next) => {
   // render template using data from DB
   res.status(200).render('tour', {
     title: `${tour.name} Tour`,
-    tour
+    tour,
+    reviewByUser
   });
 });
 
