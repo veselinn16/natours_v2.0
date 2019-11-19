@@ -18,7 +18,8 @@ const {
   getBillingForm,
   getAccount,
   getForgotPassword,
-  updateUserData
+  updateUserData,
+  getUser
 } = viewsController;
 
 const { isLoggedIn, protect } = authController;
@@ -30,9 +31,9 @@ router.use(viewsController.alerts);
 
 router.get('/', isLoggedIn, getOverview);
 
-router.get('/about', getAbout);
+router.get('/about', getUser, getAbout);
 
-router.get('/contacts', getContacts);
+router.get('/contacts', getUser, getContacts);
 
 router.get('/tour/:slug', isLoggedIn, getTour);
 

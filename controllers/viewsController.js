@@ -4,6 +4,7 @@ const Reviews = require('../models/reviewModel');
 const Booking = require('../models/bookingModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
+const jwt = require('jsonwebtoken');
 
 // give access to alerts in all templates
 exports.alerts = (req, res, next) => {
@@ -77,15 +78,35 @@ exports.getBillingForm = (req, res) => {
   });
 };
 
-exports.getAbout = (req, res) => {
+exports.getUser = catchAsync(async (req, res, next) => {
+  // if there's not jwt or jtw has a value of loggedout, user's not logged in
+  if (!req.headers.cookie || req.headers.cookie.includes('loggedout'))
+    return next();
+
+  // put user on request object
+  const decoded = jwt.verify(
+    req.headers.cookie.split('=')[1],
+    process.env.JWT_SECRET
+  );
+
+  const user = await User.findById(decoded.id);
+
+  req.user = user;
+
+  next();
+});
+
+exports.getAbout = async (req, res) => {
   res.status(200).render('about', {
-    title: 'About Us'
+    title: 'About Us',
+    user: req.user // coming from getUser middleware
   });
 };
 
 exports.getContacts = (req, res) => {
   res.status(200).render('contacts', {
-    title: 'Contact Us'
+    title: 'Contact Us',
+    user: req.user // coming from getUser middleware
   });
 };
 
