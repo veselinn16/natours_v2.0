@@ -95,6 +95,12 @@ exports.getAccount = (req, res) => {
   });
 };
 
+exports.getForgotPassword = (req, res) => {
+  res.status(200).render('forgotPassword', {
+    title: 'Forgot Password'
+  });
+};
+
 exports.getMyTours = catchAsync(async (req, res, next) => {
   // find all bookings // could be done with virtual populate
   const bookings = await Booking.find({ user: req.user.id });

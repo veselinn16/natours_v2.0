@@ -4,6 +4,7 @@ import { login, logout } from './login';
 import { signup } from './signup';
 import { sendContactsEmail } from './contact';
 import { updateUserData } from './updateData';
+import { forgotPassword } from './forgotPassword';
 import { displayMap } from './mapbox';
 import { bookTour } from './stripe';
 import { showAlert } from './alerts';
@@ -24,6 +25,7 @@ const bookButton = document.getElementById('book-tour');
 const signupBtn = document.querySelector('.btn--signup');
 const contactsBtn = document.querySelector('.btn--contacts');
 const accountSideNav = document.querySelector('.side-nav');
+const forgotPasswordBtn = document.querySelector('.btn--forgot-password');
 
 if (mapbox) {
   const locations = JSON.parse(mapbox.dataset.locations);
@@ -196,4 +198,17 @@ if (contactsBtn) {
       message
     });
   };
+}
+
+if (forgotPasswordBtn) {
+  forgotPasswordBtn.addEventListener('click', e => {
+    e.preventDefault();
+
+    const userEmail = document.getElementById('email').value;
+    const password = document.getElementById('password-forgot').value;
+    const passwordConfirm = document.getElementById('password-confirm-forgot')
+      .value;
+
+    forgotPassword(userEmail, password, passwordConfirm);
+  });
 }

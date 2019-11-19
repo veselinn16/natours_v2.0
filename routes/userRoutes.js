@@ -36,8 +36,8 @@ router.post('/login', logIn);
 router.get('/logout', logOut);
 router.post('/contacts', sendContactsMessage);
 
-router.post('/forgotPassword', forgotPassword);
-router.patch('/resetPassword/:token', resetPassword);
+router.post('/forgotPassword', protect, forgotPassword);
+router.patch('/resetPassword/:token', protect, resetPassword);
 
 // Protect all the routes that are matched after this point - user must be authenticated
 router.use(protect);

@@ -190,6 +190,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   const user = await User.findOne({ email: req.body.email });
   if (!user)
     return next(new AppError('There is no user with this email!', 404));
+
   // generate random token, which is not encrypted
   const resetToken = user.createPasswordResetToken();
 
@@ -206,7 +207,10 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 
     res.status(200).json({
       status: 'success',
-      message: 'Token sent to email!'
+      data: {
+        message: 'Reset URL sent to email!',
+        resetURL
+      }
     });
   } catch (err) {
     console.log(err);
@@ -249,6 +253,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   user.passwordResetExpires = undefined;
   await user.save();
 
+  // send email notifying user
   const url = `${req.protocol}://${req.get('host')}/`;
   await new Email(user, url).sendModifiedPassword();
 
