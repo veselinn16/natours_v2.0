@@ -5,6 +5,7 @@ import { signup } from './signup';
 import { sendContactsEmail } from './contact';
 import { updateUserData } from './updateData';
 import { forgotPassword } from './forgotPassword';
+import { submitReview } from './submitReview';
 import { displayMap } from './mapbox';
 import { bookTour } from './stripe';
 import { showAlert } from './alerts';
@@ -26,6 +27,10 @@ const signupBtn = document.querySelector('.btn--signup');
 const contactsBtn = document.querySelector('.btn--contacts');
 const accountSideNav = document.querySelector('.side-nav');
 const forgotPasswordBtn = document.querySelector('.btn--forgot-password');
+
+const showReviewBtn = document.querySelector('.btn--show-review');
+const reviewStars = document.querySelector('.reviews__rating-review');
+const reviewSubmitBtn = document.querySelector('.btn--submit-review');
 
 if (mapbox) {
   const locations = JSON.parse(mapbox.dataset.locations);
@@ -210,5 +215,59 @@ if (forgotPasswordBtn) {
       .value;
 
     forgotPassword(userEmail, password, passwordConfirm);
+  });
+}
+
+if (showReviewBtn) {
+  showReviewBtn.addEventListener('click', e => {
+    e.preventDefault();
+
+    const reviewForm = document.querySelector('.review__form');
+    if (reviewForm.style.opacity !== '1') {
+      // show review form and scroll to it
+      reviewForm.style.opacity = '1';
+      reviewForm.style.height = '40rem';
+
+      window.scroll({
+        top: document.body.scrollHeight * 0.7,
+        left: 0,
+        behavior: 'smooth'
+      });
+    } else {
+      // scroll to review form
+      window.scroll({
+        top: document.body.scrollHeight * 0.657,
+        left: 0,
+        behavior: 'smooth'
+      });
+    }
+  });
+}
+
+const stars = Array.from(document.querySelectorAll('.reviews__star--big'));
+if (reviewStars) {
+  reviewStars.addEventListener('click', e => {
+    const clicked = stars.indexOf(e.target);
+
+    if (clicked >= 0) {
+      stars.forEach((star, i) => {
+        star.classList =
+          i > clicked
+            ? 'reviews__star--big reviews__star--inactive'
+            : 'reviews__star--big reviews__star--active';
+      });
+    }
+  });
+}
+
+if (reviewSubmitBtn) {
+  reviewSubmitBtn.addEventListener('click', e => {
+    e.preventDefault();
+    const reviewText = document.querySelector('.review__form-text').value;
+    const reviewRating = stars.filter(star =>
+      star.classList.contains('reviews__star--active')
+    );
+
+    submitReview(reviewText, reviewRating.length);
   });
 }

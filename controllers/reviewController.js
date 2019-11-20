@@ -1,15 +1,21 @@
 const Review = require('./../models/reviewModel');
-// const catchAsync = require('./../utils/catchAsync');
+const Tour = require('./../models/tourModel');
+const catchAsync = require('./../utils/catchAsync');
 const factory = require('./handlerFactory');
 
 // middleware which runs befor the createReview
-exports.setTourAndUserId = (req, res, next) => {
+exports.setTourAndUserId = catchAsync(async (req, res, next) => {
+  let tour;
+  if (!req.params.tourId) {
+    tour = await Tour.findOne({ slug: req.body.slug });
+  }
+
   // allow nested routes - get the tour off the URL if it is not in the request object
-  if (!req.body.tour) req.body.tour = req.params.tourId;
+  if (!req.body.tour) req.body.tour = req.params.tourId || tour.id;
   if (!req.body.user) req.body.user = req.user.id; // from protect middleware
 
   next();
-};
+});
 
 exports.getAllReviews = factory.getAll(Review);
 
