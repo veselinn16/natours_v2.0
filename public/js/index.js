@@ -239,20 +239,22 @@ if (showReviewBtn) {
     addListenerToSubmitReview();
 
     const reviewForm = document.querySelector('.review__form');
-    if (reviewForm.style.opacity !== '1') {
+    if (reviewForm.style.visibility !== 'visible') {
       // show review form and scroll to it
       reviewForm.style.visibility = 'visible';
       reviewForm.style.height = '40rem';
+      reviewForm.style.margin = '2rem auto';
+      reviewForm.style.padding = '7rem 0';
 
       window.scroll({
-        top: document.body.scrollHeight * 0.7,
+        top: document.body.scrollHeight * 0.72,
         left: 0,
         behavior: 'smooth'
       });
     } else {
       // scroll to review form
       window.scroll({
-        top: document.body.scrollHeight * 0.657,
+        top: document.body.scrollHeight * 0.65,
         left: 0,
         behavior: 'smooth'
       });
