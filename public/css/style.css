@@ -700,6 +700,10 @@ body {
   align-items: center;
   justify-content: space-around; /* new */
 }
+.reviews__card--shine {
+  -webkit-box-shadow: 0 1.5rem 4rem rgba(255, 255, 255, 0.15);
+  box-shadow: 0 1.5rem 4rem rgba(255, 255, 255, 0.15);
+}
 .reviews:before,
 .reviews:after {
   content: '';

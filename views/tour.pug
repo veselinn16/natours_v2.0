@@ -86,9 +86,12 @@ block content
                         h6.reviews__user= user.name
                     p.reviews__text.reviews__text--new Submit your review now!
                     button.btn.btn--green.btn--small.btn--show-review Post a review
-                    
-            each review in tour.reviews
-                +reviewCard(review)
+             
+            each review in reviews
+                if review === reviewByUser
+                    +reviewCard(review, true)
+                else
+                    +reviewCard(review, false)
         .review__form
             h1.heading-secondary Your review
             textarea.review__form-text(maxlength='100' required)

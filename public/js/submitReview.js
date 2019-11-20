@@ -20,6 +20,11 @@ export const submitReview = async (review, rating) => {
 
       setTimeout(() => {
         window.location.reload();
+        window.scroll({
+          top: document.body.scrollHeight * 0.54,
+          left: 0,
+          behavior: 'smooth'
+        });
       }, 1500);
     }
   } catch (err) {

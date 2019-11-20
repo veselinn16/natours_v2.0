@@ -54,9 +54,16 @@ exports.getTour = catchAsync(async (req, res, next) => {
   if (req.user) {
     tour.reviews.forEach(review => {
       if (review.user.id === req.user.id) {
-        reviewByUser = true;
+        reviewByUser = review;
       }
     });
+  }
+  // load latest revies first
+  const reviewsClone = tour.reviews.reverse();
+  if (reviewByUser) {
+    const i = reviewsClone.indexOf(reviewByUser);
+    reviewsClone.splice(i, 1);
+    reviewsClone.unshift(reviewByUser);
   }
   // now we build the template - in pug
 
@@ -68,6 +75,7 @@ exports.getTour = catchAsync(async (req, res, next) => {
   res.status(200).render('tour', {
     title: `${tour.name} Tour`,
     tour,
+    reviews: reviewsClone,
     reviewByUser
   });
 });
