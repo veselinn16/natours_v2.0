@@ -218,14 +218,30 @@ if (forgotPasswordBtn) {
   });
 }
 
+const addListenerToSubmitReview = () => {
+  reviewSubmitBtn.addEventListener('click', e => {
+    e.preventDefault();
+    const reviewText = document.querySelector('.review__form-text').value;
+    const reviewRating = stars.filter(star =>
+      star.classList.contains('reviews__star--active')
+    );
+
+    if (!reviewText || reviewRating.length === 0)
+      return showAlert('error', 'Please provide a review and a rating!');
+
+    submitReview(reviewText, reviewRating.length);
+  });
+};
+
 if (showReviewBtn) {
   showReviewBtn.addEventListener('click', e => {
     e.preventDefault();
+    addListenerToSubmitReview();
 
     const reviewForm = document.querySelector('.review__form');
     if (reviewForm.style.opacity !== '1') {
       // show review form and scroll to it
-      reviewForm.style.opacity = '1';
+      reviewForm.style.visibility = 'visible';
       reviewForm.style.height = '40rem';
 
       window.scroll({
@@ -257,17 +273,5 @@ if (reviewStars) {
             : 'reviews__star--big reviews__star--active';
       });
     }
-  });
-}
-
-if (reviewSubmitBtn) {
-  reviewSubmitBtn.addEventListener('click', e => {
-    e.preventDefault();
-    const reviewText = document.querySelector('.review__form-text').value;
-    const reviewRating = stars.filter(star =>
-      star.classList.contains('reviews__star--active')
-    );
-
-    submitReview(reviewText, reviewRating.length);
   });
 }
