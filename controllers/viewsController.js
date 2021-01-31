@@ -101,14 +101,21 @@ exports.getBillingForm = (req, res) => {
 exports.getAbout = async (req, res) => {
   res.status(200).render('about', {
     title: 'About Us',
-    user: req.user // coming from getUser middleware
+    user: req.user // coming from isLoggedIn middleware
   });
 };
 
 exports.getContacts = (req, res) => {
   res.status(200).render('contacts', {
     title: 'Contact Us',
-    user: req.user // coming from getUser middleware
+    user: req.user // coming from isLoggedIn middleware
+  });
+};
+
+exports.getCareers = (req, res) => {
+  res.status(200).render('careers', {
+    title: 'Careers at Natours',
+    user: req.user
   });
 };
 

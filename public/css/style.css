@@ -65,6 +65,13 @@ body {
   align-items: center;
   justify-content: space-between;
 }
+.main--careers {
+  padding: 8rem 0;
+}
+
+.main--careers section:not(:last-child) {
+  margin: 3rem 0;
+}
 
 .flex {
   display: -webkit-box;
@@ -137,12 +144,15 @@ body {
   );
   background-image: linear-gradient(to right, #7dd56f, #28b487);
   -webkit-background-clip: text;
+  background-clip: text;
   color: transparent;
   letter-spacing: 0.1rem;
   line-height: 1.3;
   display: inline-block;
 }
-
+.heading-secondary--mid {
+  font-size: 4rem;
+}
 .heading-secondary--big {
   font-size: 6rem;
   text-align: center;
@@ -218,6 +228,7 @@ body {
   );
   background-image: linear-gradient(to right, #7dd56f, #28b487);
   -webkit-background-clip: text;
+  background-clip: text;
   color: transparent;
 }
 
@@ -312,6 +323,9 @@ body {
 .btn--small {
   padding: 1.25rem 3rem !important;
   font-size: 1.4rem !important;
+}
+.btn--width-limit {
+  max-width: 20rem;
 }
 
 .btn-small,
@@ -1426,10 +1440,6 @@ body {
   display: block;
   text-align: center;
 }
-
-.card__footer--about p {
-}
-
 .card__footer-value {
   font-weight: 700;
 }
@@ -1807,4 +1817,65 @@ body {
 }
 .radio:hover input:checked + span:after {
   transform: scale(0.4);
+}
+
+.section__careers--join {
+  display: grid;
+  grid-template-columns: repeat(9, minmax(11.1%, min-content));
+  grid-template-rows: repeat(6, minmax(10rem, min-content));
+  margin-left: 6rem !important;
+  margin-right: 6rem !important;
+  margin-top: 0 !important;
+}
+.section__careers-bg {
+  grid-column: 1 / 9;
+  grid-row: 3 / -1;
+  background: linear-gradient(
+    to bottom right,
+    rgba(125, 213, 111, 0.85),
+    rgba(40, 180, 135, 0.85)
+  );
+}
+.section__careers-cta {
+  grid-column: 2 / 5;
+  grid-row: 2 / 5;
+  background: #fff;
+  z-index: 10;
+  padding: 8%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.section__careers-appeal-container {
+  grid-column: 4 / -1;
+  grid-row: 1 / 6;
+  background: #f1f1f1;
+  z-index: 1;
+  padding: 10% 15%;
+}
+.section__careers-appeal {
+  font-size: 8rem;
+  font-weight: 900;
+  color: #55c57a;
+  text-shadow: 0.6rem 0.5rem 0 rgba(255, 255, 255, 0.7);
+}
+.floated {
+  text-orientation: sideways-right;
+  float: right;
+}
+#careers-letter {
+  color: #ff7730;
+}
+.section__careers-img {
+  width: 100%;
+  height: 100%;
+}
+.section__careers--office-gallery {
+  padding: 10%;
+  width: 100%;
+  background: linear-gradient(
+    to bottom right,
+    rgba(125, 213, 111, 0.85),
+    rgba(40, 180, 135, 0.85)
+  );
 }

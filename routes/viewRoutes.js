@@ -10,6 +10,7 @@ const {
   getOverview,
   getAbout,
   getContacts,
+  getCareers,
   getTour,
   getMyTours,
   getMyReviews,
@@ -33,6 +34,8 @@ router.get('/', isLoggedIn, getOverview);
 router.get('/about', isLoggedIn, getAbout);
 
 router.get('/contacts', isLoggedIn, getContacts);
+
+router.get('/careers', isLoggedIn, getCareers);
 
 router.get('/tour/:slug', isLoggedIn, getTour);
 

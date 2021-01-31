@@ -1,0 +1,11 @@
+mixin jobCard(job)
+    div(class='job__card')
+        .job__avatar
+            img.job__avatar-img(src=`/img/users/${job.photo}`, alt=`${job.title}`)
+            h6.reviews__user= job.title
+        p.reviews__text= job.job
+        //- .reviews__rating
+            //- each star in [1,2,3,4,5]
+                //- here we decide if the star should be green or gray based on the rating and the number we're currently looping over
+                //- svg.reviews__star(class=`reviews__star--${review.rating >= star ? 'active' : 'inactive'}`)
+                //-     use(xlink:href='/img/icons.svg#icon-star')
