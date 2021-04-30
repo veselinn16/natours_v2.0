@@ -35,6 +35,9 @@ const port = process.env.PORT || 8000;
 const server = app.listen(port, () => {
   console.log(`Running in ${process.env.NODE_ENV} mode`);
   console.log(`App running on port ${port}`);
+  if (process.env.NODE_ENV === 'development') {
+    console.log(`Open in browser at http://localhost:${port}`);
+  }
 });
 
 // safety net for unhandled promises
